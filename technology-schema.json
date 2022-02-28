@@ -1,0 +1,59 @@
+{
+    "name": {
+        "type": "string"
+    },
+    "category": {
+        "type": "string"
+    },
+    "id": {
+        "type": "string",
+        "format": "integer"
+    },
+    "status": {
+        "type": "string"
+    },
+    "author": {
+        "$ref": "string"
+    },
+    "description": {
+        "type": "string"
+    },
+    "published": {
+        "type": "boolean"
+    },
+    "created": {
+        "type": "string"
+    },
+    "history": {
+        "type": "array"
+    }
+}
+
+
+
+{
+    "_id": {
+        "$oid": "620ac524b1f885d2f768aa45"
+    },
+    "name": "Scrum",
+    "category": "Techniques",
+    "status": "Hold",
+    "author": "Dave",
+    "description": "Scrum ist ein Vorgehensmodell des Projekt- und Produktmanagements, insbesondere zur agilen Softwareentwicklung.",
+    "published": true,
+    "created": "17.2.2022 16:23:43",
+    "history": [
+        {
+            "author": "Dave",
+            "created": "15.2.2022 16:23:43"
+        },
+        {
+            "author": "Mike",
+            "created": "16.2.2022 16:24:00"
+        },
+        {
+            "author": "Kevin",
+            "created": "17.2.2022 22:33:12"
+        }
+    ]
+}

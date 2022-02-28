@@ -48,38 +48,6 @@ server.get('/getAllPublishedByCategory/:category', async (req, res) => {
     res.end();
 });
 
-server.post('/addNewTechnology', verifyToken, async (req, res) => {
-    console.log("in add")
-    console.log(req.body)
-    const client = await mongoClient.connect(connectionString);
-    const db = client.db('techradar');
-    const collection = db.collection('technologies');
-    const result = await collection.insertOne(req.body);
-
-    if (result) {
-        res.send(result);
-    } else {
-        res.status(404);
-    }
-    res.end();
-});
-
-server.post('/editTechnology', verifyToken, async (req, res) => {
-    console.log("in edit")
-    console.log(req.body)
-    const client = await mongoClient.connect(connectionString);
-    const db = client.db('techradar');
-    const collection = db.collection('technologies');
-    const queryFilter = { name: req.body.name }
-    const result = await collection.updateOne(queryFilter, { $set: req.body.technology });
-    if (result) {
-        res.send(result);
-    } else {
-        res.status(404);
-    }
-    res.end();
-});
-
 server.post('/login', async (req, res) => {
     let userData = req.body
     const client = await mongoClient.connect(connectionString);
@@ -111,18 +79,6 @@ server.post('/login', async (req, res) => {
     });
 });
 
-server.get('/getAllUnpublished', verifyToken, async (req, res) => {
-    const client = await mongoClient.connect(connectionString);
-    const db = client.db('techradar');
-    const collection = db.collection('technologies');
-    const result = await collection.find({ published: false }).toArray();
-    res.json(result)
-});
-
-
-
-
-
 function verifyToken(req, res, next) {
     let token = req.headers['authorization'];
 
@@ -142,5 +98,41 @@ function verifyToken(req, res, next) {
     }
 };
 
-server.listen(4566);
-console.log("Server running")
+server.post('/addNewTechnology', verifyToken, async (req, res) => {
+    const client = await mongoClient.connect(connectionString);
+    const db = client.db('techradar');
+    const collection = db.collection('technologies');
+    const result = await collection.insertOne(req.body);
+
+    if (result) {
+        res.send(result);
+    } else {
+        res.status(404);
+    }
+    res.end();
+});
+
+server.post('/editTechnology', verifyToken, async (req, res) => {
+    const client = await mongoClient.connect(connectionString);
+    const db = client.db('techradar');
+    const collection = db.collection('technologies');
+    const queryFilter = { name: req.body.name }
+    const result = await collection.updateOne(queryFilter, { $set: req.body.technology });
+    if (result) {
+        res.send(result);
+    } else {
+        res.status(404);
+    }
+    res.end();
+});
+
+server.get('/getAllUnpublished', verifyToken, async (req, res) => {
+    const client = await mongoClient.connect(connectionString);
+    const db = client.db('techradar');
+    const collection = db.collection('technologies');
+    const result = await collection.find({ published: false }).toArray();
+    res.json(result)
+});
+
+var listener = server.listen(4566);
+console.log("Server running at port " + listener.address().port)
